@@ -1,4 +1,23 @@
 class Listener {
+    static attach(object) {
+        const instance = new this();
+
+        //Copies a function over with same parameters
+        const copy = (...keys) => {
+            keys.forEach(n => {
+                //Use function for argument variable
+
+                const localFunction = instance[n];
+                object[n] = (...args) => {
+                    localFunction.call(instance,...args);
+                };
+            });
+        }
+
+        void copy("addEventListener","removeEventListener","dispatchEvent","waitForEvent");
+        return instance;
+    }
+
     constructor() {
         this.listeners = {};
     }
@@ -29,6 +48,10 @@ class Listener {
         //Find callbacks from listener id and call them with args
         this.listeners[id]?.forEach(callback => {
             callback(...args);
+        })
+
+        this.listeners["*"]?.forEach(callback => {
+            callback(id,...args);
         })
     }
     waitForEvent(id) {

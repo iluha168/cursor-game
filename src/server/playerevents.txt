@@ -1,3 +1,5 @@
+(we have to do this because markdown is broken in replit so)
+
 ======== mouseMove ========
 Called whenever the player's mouse moves
 
@@ -16,12 +18,19 @@ void buttonChanged(bool pushed) {
 }
 
 
-======== buttonChanged ========
-Called whenever the player pushes or lets go of the left mouse button
+======== colorChanged ========
+Called whenever the player changes their player color
 
 Usage: 
-void buttonChanged(bool pushed) {
+void buttonChanged(string newColor) {
     
 }
 
 
+======== nickChanged ========
+Called whenever the player changes their nickname
+
+Usage: 
+void buttonChanged(string newNick) {
+    
+}
