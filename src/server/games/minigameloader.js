@@ -4,12 +4,17 @@ class MinigameLoader {
     static minigames = new Map();
 
     static loadGame(name) {
-        const game = require("./"+name+".js");
-        game.setup();
+        let game;
+		try {
+	       game = require(`./${name}.js`);
+		} catch(e) {
+			console.error(e);
+            return;
+		}
         
         this.addEventListener("*", (type, player, ...args) => {
-            game[type](player, ...args);
-        })
+            game[type]?.(player, ...args); //repl stfu
+        });
 
         game.start();
 

@@ -2,9 +2,6 @@
 const Listener = require("../../listeners.js");
 
 class Minigame {
-    static setup() {
-        Listener.attach(this);
-    }
 
     //These will be overwritten by the extending class
     static start() {
@@ -24,6 +21,9 @@ class Minigame {
     }
     static nickChanged(player,nick) {
 
+    }
+    static chatMessage(player,message) {
+        
     }
 }
 

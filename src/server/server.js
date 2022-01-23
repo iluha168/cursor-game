@@ -23,6 +23,8 @@ class Server {
     static idGenerator = idGenerator();
 	
     static start() {
+
+        //Webserver stuff
         exws(this.server);
 		if (process.env.IS_DEV == "false") {
 			this.server.use(helmet());
@@ -31,6 +33,7 @@ class Server {
         this.setupPaths();
         this.server.listen();
 
+        //Game stuff
         setInterval(()=>this.tick(), 50);
 
         MinigameLoader.loadGame("basic");

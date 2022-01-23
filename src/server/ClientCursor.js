@@ -5,8 +5,10 @@ const Listener = require("../listeners.js");
 
 class ClientCursor {
 	constructor(ws, clients) {
-        this.event = new Listener();
+        Listener.attach(this);
+
 		this.ws = ws;
+        this.id = ws.id;
 		this.clients = clients;
 		this.x = 0.5;
 		this.y = 0.5;
@@ -38,13 +40,13 @@ class ClientCursor {
 						this.y = data.y;
 					}
                     if(posChanged) {
-                        this.event.dispatchEvent("mouseMove", data.x, data.y);
+                        this.dispatchEvent("mouseMove", data.x, data.y);
                     }
 					
 					if (typeof data.p === "boolean") {
                         //Will fire if new data is different from stored data
                         if(this.p !== data.p)
-							this.event.dispatchEvent("buttonChanged",data.p);
+							this.dispatchEvent("buttonChanged",data.p);
 
 						this.p = data.p;
                     }
@@ -52,13 +54,13 @@ class ClientCursor {
                     //Customization
 					if (typeof data.c === "string") {
                         if(this.c !== data.c)
-							this.event.dispatchEvent("colorChanged",data.c);
+							this.dispatchEvent("colorChanged",data.c);
                         this.c = data.c;
                     }
 					if (typeof data.nick === "string") {
 						data.nick = data.nick.slice(0, 32)
                         if(this.nick != data.nick) 
-                            this.event.dispatchEvent("nickChanged",data.nick);
+                            this.dispatchEvent("nickChanged",data.nick);
 						this.nick = data.nick;
                     }
 
@@ -77,7 +79,7 @@ class ClientCursor {
 					data.msg = data.msg.trim().slice(0, 200);
 					if (!data.msg.length) return;
 
-                    this.event.dispatchEvent("sendChat",data.msg);
+                    this.dispatchEvent("chatMessage",data.msg);
                     
                     //Send message to all peers
 					for (let client of this.clients.values()) {
@@ -100,7 +102,7 @@ class ClientCursor {
 			c: this.c,
 			p: this.p,
 			nick: this.nick,
-			id: this.ws.id,
+			id: this.id,
 		};
 	}
 
@@ -109,7 +111,7 @@ class ClientCursor {
 			x: this.x,
 			y: this.y,
 			p: this.p,
-			id: this.ws.id,
+			id: this.id,
 		};
 	}
 }

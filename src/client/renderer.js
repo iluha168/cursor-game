@@ -46,8 +46,9 @@ class Renderer {
 
         //Player chat messages
 		this.ctx.fillStyle = "#FFF";
+		chats = chats.slice(-8)
         this.drawText(chats, x + 5, y);
-
+        
         //Clicked cursor outline
 		if(p) {
             this.ctx.strokeStyle = c;
