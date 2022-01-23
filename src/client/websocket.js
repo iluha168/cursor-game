@@ -36,7 +36,7 @@ class SocketClient {
     }
     static async handleMessage(raw) {
         let [type, data] = notepack.decode(await raw.data.arrayBuffer());
-
+		console.debug("%cIn: ", "color:red", type, data)
         if(type == types.IDENTIFY) this.userId = data.id;
 
         this.event.dispatchEvent("message_"+types.typeof(type),data);
@@ -44,6 +44,7 @@ class SocketClient {
     }
     static sendJSON(type,data) {
         if(this.socket.readyState >= 2) return this.event.dispatchEvent("close");
+		console.debug("%cOut: ", "color:lime", type, data)
         this.socket.send(notepack.encode([type,data]));
     }
     static updateState(state) {

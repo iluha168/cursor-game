@@ -8,17 +8,20 @@ const types = require("../types");
 const Listener = require("../listeners.js");
 const MinigameLoader = require("./games/minigameloader.js");
 
+//First generator function application
+function* idGenerator() {
+    let id = 0;
+    while(true) {
+        yield id++;
+    }
+};
+
 class Server {
     static server = express();
     static clients = new Map();
     static event = new Listener();
-
-    static * nextId() {
-        let id = 0;
-        while(true) {
-            yield id++;
-        }
-    }
+    static idGenerator = idGenerator();
+	
     static start() {
         exws(this.server);
 		if (process.env.IS_DEV == "false") {
@@ -28,15 +31,13 @@ class Server {
         this.setupPaths();
         this.server.listen();
 
-        setInterval(() => {
-            this.tick();
-        },50);
+        setInterval(()=>this.tick(), 50);
 
         MinigameLoader.loadGame("basic");
     }
     static setupWebSocket() {
         this.server.ws("/", (ws, _req) => {
-            ws.id = this.nextId();
+            ws.id = this.idGenerator.next().value;
 
             let newHandle = new ClientCursor(ws, this.clients);
             this.clients.set(ws.id, newHandle);
@@ -59,7 +60,7 @@ class Server {
             });
 
             newHandle.addEventListener("*", (event, ...args) => {
-                MinigameLoader.dispatchEvent(event, ws, ...args);
+                MinigameLoader.dispatchEvent(event, newHandle, ...args);
             })
         });
     }

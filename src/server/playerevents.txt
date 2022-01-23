@@ -22,7 +22,7 @@ void buttonChanged(bool pushed) {
 Called whenever the player changes their player color
 
 Usage: 
-void buttonChanged(string newColor) {
+void colorChanged(string newColor) {
     
 }
 
@@ -31,6 +31,6 @@ void buttonChanged(string newColor) {
 Called whenever the player changes their nickname
 
 Usage: 
-void buttonChanged(string newNick) {
+void nickChanged(string newNick) {
     
 }

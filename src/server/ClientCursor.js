@@ -28,12 +28,12 @@ class ClientCursor {
                     let posChanged = false;
 
 					if (typeof data.x === "number") { // x ∈ [0;1]
-						data.x = Math.max(Math.min(0, data.x), 1)
+						data.x = Math.min(Math.max(0, data.x), 1)
                         if(this.x !== data.x) posChanged = true;
 						this.x = data.x;
                     }
 					if (typeof data.y === "number") { // y ∈ [0;1]
-						data.y = Math.max(Math.min(0, data.y), 1)
+						data.y = Math.min(Math.max(0, data.y), 1)
                         if(this.y !== data.y) posChanged = true;
 						this.y = data.y;
 					}
@@ -51,7 +51,7 @@ class ClientCursor {
 
                     //Customization
 					if (typeof data.c === "string") {
-                        if(this.c != data.c)
+                        if(this.c !== data.c)
 							this.event.dispatchEvent("colorChanged",data.c);
                         this.c = data.c;
                     }

@@ -20,9 +20,11 @@ class DomWorker {
         })
         document.querySelector("#color").addEventListener("input", (e) => {
             const input = document.querySelector("#color");
-
-            this.event.dispatchEvent("color",input.value);
+            this.event.dispatchEvent("color", input.value);
         })
+		document.querySelector("#minigames").addEventListener("click", (e)=>{
+			alert("We didn't make minigames yet, sorry ;)")
+		})
         document.querySelector("#disconnect-warning").classList.add("hidden");
         document.querySelector("#disconnect-warning > .container > button").addEventListener("click", () => {
             document.location.reload()
@@ -35,7 +37,7 @@ class DomWorker {
         const {fps, ping, players} = stats;
         if(fps) document.querySelector("#fps-counter").textContent = fps;
         if(ping) document.querySelector("#ping-counter").textContent = ping;
-        if(players) document.querySelector("#players-online").textContent = players;
+        if(players) document.querySelector("#players-online").innerText = players;
     }
     static showDisconnectionWarning() {
         document.querySelector("#disconnect-warning").classList.remove("hidden");

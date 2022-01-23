@@ -1,4 +1,4 @@
-const Listener = require("../listeners.js");
+const Listener = require("../../listeners.js");
 
 class MinigameLoader {
     static minigames = new Map();
@@ -7,8 +7,8 @@ class MinigameLoader {
         const game = require("./"+name+".js");
         game.setup();
         
-        this.addEventListener("*", (type, ws, ...args) => {
-            game.dispatchEvent(type, ws, ...args);
+        this.addEventListener("*", (type, player, ...args) => {
+            game[type](player, ...args);
         })
 
         game.start();
@@ -16,7 +16,7 @@ class MinigameLoader {
         this.minigames.set(name,game);
     }
     static tick() {
-        this.minigames.values().forEach(game => {
+        this.minigames.forEach(game => {
             game.tick();
         });
     }

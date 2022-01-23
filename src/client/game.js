@@ -169,7 +169,7 @@ class Game {
         DomWorker.setStats({
             fps: this.fps,
             ping: Math.round(SocketClient.gamePing),
-			players: this.data.cursors.length
+			players: Object.keys(this.data.cursors).length+1
         })
     }
 
@@ -177,7 +177,6 @@ class Game {
     static t1 = performance.now();
     static fps = 0;
     static draw() {
-
         Renderer.clear();
         
         for(let c of Object.keys(this.data.cursors)) {
