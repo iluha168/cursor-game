@@ -2,8 +2,14 @@
 <html>
 	<head>
 		<title>Cursor game</title>
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="Cursor game!"/>
+		<meta property="og:description" content="In this game, your character is your mouse! It was created as just chatting game."/>
+		<meta property="og:url" content="https://cursor-game.iluha168.repl.co/"/>
+		<meta property="og:image" content="https://cursor-game.iluha168.repl.co/assets/icon-transparent.png"/>
+    	<meta content="#FFFF00" data-react-helmet="true" name="theme-color"/>
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="assets/favicon.ico">
+        <link rel="icon" href="assets/icon-low.png">
 		<script src="index.js" type="module"></script>
 	</head>
 	<body>
@@ -15,8 +21,19 @@
 				<input maxlength="32" type="text" placeholder="Choose a nickname"/>
             </form>
 			<!--Man it is intuitive, no tip for color XD-->
-            <input id="color" type="color" placeholder="ur mom"/>
+            <input id="color" type="color"/>
 		</div>
-		<canvas>Your browser suck and i don't care</canvas>
+        <div id="overlay">
+            <div id="fps-counter">0</div>
+            <div id="ping-counter">0</div>
+        </div>
+		<canvas>your browser dogshit</canvas>
+        <div id="disconnect-warning" class="hidden">
+            <div class="container">
+                <h1>Oops!</h1>
+                <p>It looks like your websocket was disconnected.</p>
+                <button id="retry-connection">Refresh</button>
+            </div>
+        </div>
 	</body>
 </html>

@@ -63,6 +63,10 @@ class Game {
 
         this.fetchSettings();
         this.syncSettings();
+        
+        SocketClient.event.addEventListener("close",(e) => {
+            DomWorker.showDisconnectionWarning();
+        });
     }
     static setupSocketListeners() {
         this.me.id = SocketClient.userId;
@@ -120,7 +124,7 @@ class Game {
         if(user.id == this.me.id) {
             this.me.merge(user);
         } else {
-            this.data.cursors[user.id].merge(user);
+            this.data.cursors[user.id].merge(user)
         }
         this.event.dispatchEvent("user_change",user);
     }
@@ -128,10 +132,11 @@ class Game {
     static chatMessage(data) {
         let {msg, id} = data;
         
-        this.data.chats[id] = [msg,...(this.data.chats[id] || [])];
+        this.data.chats[id] ??= [];
+        this.data.chats[id].push(msg);
 
         setTimeout(() => {
-            this.data.chats[id].splice(this.data.chats[id].length-1,1);
+            this.data.chats[id].splice(0,1);
         },msg.length * 150 + 5000);
         
         this.event.dispatchEvent("chat_message",data);
@@ -145,7 +150,9 @@ class Game {
             p: Input.leftMousePressed
         };
         this.me.merge(newState);
-        SocketClient.updatePosition(newState);
+
+        if(Input.changed) SocketClient.updatePosition(newState);
+        Input.changed = false;
     }
 
     static tickHighFreq() {
@@ -155,15 +162,21 @@ class Game {
         }
         this.me.tickInterpolation();
     }
+    
+    static async tickLowFreq() {
+        await SocketClient.ping();
+        
+        DomWorker.setStats({
+            fps: this.fps,
+            ping: Math.round(SocketClient.gamePing),
+			players: this.data.cursors.length
+        })
+    }
 
     static t0 = performance.now();
     static t1 = performance.now();
     static fps = 0;
     static draw() {
-        this.t1 = performance.now();
-        let dt = this.t1 - this.t0;
-        this.t0 = this.t1;
-        this.fps = 1/dt;
 
         Renderer.clear();
         

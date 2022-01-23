@@ -1,7 +1,8 @@
 module.exports = {
-    typeof: function(type) {
-		return Object.entries(this).find(([key])=>type===key)[1]
-    },
+	typeof: function (number) {
+		return Object.entries(this).find(kv=>kv[1]===number)?.[0]
+	},
+	
 	USER_MOVE: 1,
 	DATA_CHANGE: 2,
 	USER_JOIN: 3,

@@ -1,8 +1,10 @@
 const utils = require("../utils");
+const CrossTab = require("./cross-tab.js")
 const Game = require("./game.js");
 const Renderer = require("./renderer.js");
 const Loader = require("./loader.js");
-window.Game = Game;
+
+if (process.env.NODE_ENV == "development") window.Game = Game;
 
 Loader.assets = {
     unloaded: [
@@ -18,7 +20,7 @@ Loader.assets = {
         },
         {
             id: "new_message",
-            src: "new_message.wav",
+            src: "message.wav",
             type: "audio"
         },
     ],
@@ -28,6 +30,7 @@ Loader.assets = {
 let assets = null;
 
 async function setup() {
+	let CTChannel = new CrossTab();
     assets = await Loader.loadAssets();
     Renderer.setup();
 
@@ -40,16 +43,11 @@ async function setup() {
     console.log("%cSuccessfully connected to the game!", "color:lime;font-weight:bold;");
 
     Game.syncSettings();
-
     Game.start();
 
-    setInterval(() => {
-        Game.tick();
-    },50)
-
-    setInterval(() => {
-        Game.tickHighFreq();
-    },5)
+    setInterval(()=>Game.tick(), 50)
+    setInterval(()=>Game.tickHighFreq(), 5)
+    setInterval(()=>Game.tickLowFreq(), 500)
 
     Game.event.addEventListener("user_join", (player) => {
         assets.audio.player_join.play();
@@ -64,16 +62,16 @@ async function setup() {
     });
 }
 
-window.onload = async() => {
-    await setup();
-};
+window.onload = setup;
 
-function frame() {
+var t0 = 0;
+function frame(t1) {
+	Game.fps = Math.round(1000/(t1-t0));
+	t0 = t1;
     Game.draw();
-
 	requestAnimationFrame(frame);
 }
-frame();
+requestAnimationFrame(frame);
 
 // Trick webpack into thinking it's a ES6 module
 export default function () {}

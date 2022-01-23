@@ -1,6 +1,8 @@
 const { randint } = require("../utils.js");
 
 class Player {
+    static interpolationFactor = 6;
+
 	constructor(properties) {
 		this.x = 0.5;
 		this.y = 0.5;
@@ -9,7 +11,7 @@ class Player {
 		this.p = false; // pressed (mouse click)
 
 		this.c = "#" + randint(256, 4096).toString(16); // colour
-		this.nick = "New User"; //nickname
+		this.nick = "Loading Name..."; //nickname
 
         this.id = null;
 
@@ -21,8 +23,11 @@ class Player {
     }
 
     tickInterpolation() {
-        this.appearX += (this.x - this.appearX) / 10;
-        this.appearY += (this.y - this.appearY) / 10;
+        let dx = this.x - this.appearX;
+        let dy = this.y - this.appearY;
+
+        this.appearX += (dx) / Player.interpolationFactor;
+        this.appearY += (dy) / Player.interpolationFactor;
     }
 
     selfDestruct() {

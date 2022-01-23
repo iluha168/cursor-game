@@ -23,9 +23,22 @@ class DomWorker {
 
             this.event.dispatchEvent("color",input.value);
         })
+        document.querySelector("#disconnect-warning").classList.add("hidden");
+        document.querySelector("#disconnect-warning > .container > button").addEventListener("click", () => {
+            document.location.reload()
+        });
     }
     static setColor(color) {
         document.querySelector("#color").value = color;
+    }
+    static setStats(stats) {
+        const {fps, ping, players} = stats;
+        if(fps) document.querySelector("#fps-counter").textContent = fps;
+        if(ping) document.querySelector("#ping-counter").textContent = ping;
+        if(players) document.querySelector("#players-online").textContent = players;
+    }
+    static showDisconnectionWarning() {
+        document.querySelector("#disconnect-warning").classList.remove("hidden");
     }
 }
 

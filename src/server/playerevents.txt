@@ -1,0 +1,27 @@
+======== mouseMove ========
+Called whenever the player's mouse moves
+
+Usage: 
+void mouseMove(float newX, float newY) {
+    
+}
+
+
+======== buttonChanged ========
+Called whenever the player pushes or lets go of the left mouse button
+
+Usage: 
+void buttonChanged(bool pushed) {
+    
+}
+
+
+======== buttonChanged ========
+Called whenever the player pushes or lets go of the left mouse button
+
+Usage: 
+void buttonChanged(bool pushed) {
+    
+}
+
+

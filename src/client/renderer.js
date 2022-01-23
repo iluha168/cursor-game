@@ -12,18 +12,18 @@ class Renderer {
         });
         this.resizeCanvas();
         
-        this.ctx.font = "14px calibri";
     }
 
     static resizeCanvas() {
         let size = this.canvas.getBoundingClientRect();
         this.canvas.width = size.width;
         this.canvas.height = size.height;
+        
+        this.ctx.font = "18px calibri";
     }
 
     static clear() {
-        if(!this.ctx) return;
-        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.ctx?.clearRect(0,0,this.canvas.width,this.canvas.height);
     }
 
     static renderPlayer(player, chats = []) {
@@ -57,8 +57,8 @@ class Renderer {
         }
     }
 
-    static drawText(text,x,y,options) {
-        const {verticalAlign} = options || {};
+    static drawText(text,x,y,options = {}) {
+        const {verticalAlign} = options;
 
         if(!this.ctx) return;
 
