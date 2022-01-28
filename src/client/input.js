@@ -8,6 +8,7 @@ class Input {
     static mouseX = 0;
     static mouseY = 0;
     static keysPressed = [];
+	static canvas = document.querySelector("canvas")
 
     static listen(element) {
         document.addEventListener("mousedown", (e) => {
@@ -42,7 +43,7 @@ class Input {
         })
 
         element.addEventListener("touchmove", (e) => {
-            let cvsOffset = ctx.canvas.getBoundingClientRect();
+            let cvsOffset = this.canvas.getBoundingClientRect();
             this.mouseX = e.touches[0].clientX - cvsOffset.x;
             this.mouseY = e.touches[0].clientY - cvsOffset.y;
 

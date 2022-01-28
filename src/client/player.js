@@ -31,6 +31,7 @@ class Player {
     }
 
     selfDestruct() {
+		console.warn("TODO", this)
         //haha player go boom    
     }
 }

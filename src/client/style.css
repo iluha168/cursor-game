@@ -1,61 +1,115 @@
 :root {
-    --primary-color: #F44F4A;
-    --primary-color-dark: rgb(236, 78, 72);
-    --primary-color-darker: rgb(218, 67, 61);
+    --color-primary: rgb(197, 110, 107);
+    --color-secondary: #FFFF8D;
+    --text-color: #eee;
     --border-radius: 4px;
+
+
+    /* other vars */
+    --sidebar-width: 56px;
+}
+* {
+    font: 14px calibri, sans-serif;
 }
 canvas {
-    width: 100%;
+    width: calc(100% - var(--sidebar-width));
     height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
-html, body {
+body {
     margin: 0px;
     width: 100vw;
     height: 100vh;
     position: fixed;
-    overflow: hidden;
+    overflow: auto;
     background-color: #222;
     color: white;
 }
-.buttons > form > input {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-}
-#color, #nick {
-    width: 200px;
-    height: 100%;
-    box-sizing: border-box;
-}
-#chat {
-    flex-grow: 1;
-}
-.buttons > form {
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-.buttons {
-    height: 30px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+input {
+    pointer-events: all;
+    user-select: all;
 }
 #overlay {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     top: 0px;
-    left: 10px;
+    left: 0px;
     z-index: 100;
     pointer-events: none;
     user-select: none;
 }
-canvas {
-    position: relative;
-    top: -100%;
-    left: 0px;
+#overlay > * {
+    position: absolute;
+}
+
+#chat-container {
+    left: 1rem;
+    bottom: 1rem;
+    width: 300px;
+    box-shadow: 0px 0px 3px #0004;
+    background: #0005;
+    display: flex;
+    flex-direction: column;
+}
+#chat-logs {
+    box-sizing: border-box;
+    background: #0001;
+    width: 100%;
+    max-width: 100%;
+    max-height: 50vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: fit-content;
+    list-style-type: none;
+    padding: 0.5rem;
+    margin: 0px;
+    
+    transition: 0.1s max-height ease-out;
+    overflow-wrap: break-word;
+    /* if on, you cannot move your cursor under chat, but if off you cannot scroll chat */
+    pointer-events: all;
+}
+.username {
+    display: inline;
+}
+.username:after {
+    content: ":";
+    margin-right: 0.25rem;
+}
+.message {
+    opacity: 0.7;
+    display: inline;
+}
+#chat-logs > li {
+    margin: 0.25rem 0rem;
+    visibility: visible;
+    transition: visibility 1s linear;
+}
+#chat {
+    height: fit-content;
+}
+#chat > input {
+    width: 100%;
+    background: transparent;
+    color: var(--text-color);
+    box-sizing: border-box;
+    padding: 0.5rem;
+    margin: 0px;
+    border: none;
+    outline: none;
+}
+
+#stats {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+}
+#stats > * {
+    margin: 0.25rem;
 }
 #fps-counter:before {
     content: "Fps: ";
@@ -80,6 +134,113 @@ canvas {
     justify-content: center;
     background-color: #8888;
     font: 20px Arial, sans-serif;
+}
+#sidebar {
+    float: right;
+    width: var(--sidebar-width);
+    height: 100%;
+    background-color: var(--color-primary);
+    z-index: 300;
+    box-shadow: 0px 0px 5px #000;
+}
+#open-settings-btn {
+    width: var(--sidebar-width);
+    height: var(--sidebar-width);
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+#settings-menu {
+    --menu-width: 250px;
+
+    width: var(--menu-width);
+    box-shadow: 0px 0px 5px #000;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    background: var(--color-primary);
+    transform: translateX(var(--menu-width));
+    transition: transform 0.2s ease;
+    z-index: 200;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 3rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+#settings-menu > h1 {
+    font-size: 3rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem;
+    margin: 0px;
+    margin-bottom: 2rem;
+}
+#settings-menu > * {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    box-sizing: border-box;
+}
+input[type="text"] {
+    background: #0003;
+    color: var(--text-color);
+    outline: none;
+    border: 1px solid transparent;
+    transition: background 0.2s ease;
+    box-sizing: border-box;
+}
+input[type="text"]:focus {
+    background: #0005;
+    border: 1px solid #0002;
+}
+input[type="text"]:focus::placeholder {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+input[type="text"]::placeholder {
+    color: var(--text-color);
+    opacity: 0.4;
+}
+input[type="color"] {
+    outline: none;
+    border: none;
+    background: transparent;
+    height: 2.5rem;
+}
+input[type="color"]:focus::-webkit-color-swatch {
+    border: 1px solid #0002;
+}
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    margin: -0.26rem;
+} 
+button {
+    background: #0003;
+    color: var(--text-color);
+    outline: none;
+    border: 1px solid transparent;
+    transition: background 0.2s ease;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+button:focus {
+    background: #0004;
+    border: 1px solid #0002;
+}
+button:active {
+    background: #0005;
+}
+#settings-menu > * > input[type="text"] {
+    padding: 0.5rem;
+    width: 100%;
 }
 .container {
     min-width: 400px;
@@ -110,7 +271,7 @@ canvas {
     width: 50%;
     padding: 0.5rem;
     box-sizing: border-box;
-    background: var(--primary-color);
+    background: var(--color-primary);
     border: none;
     outline: none;
     font-size: 1.25rem;
@@ -119,14 +280,29 @@ canvas {
     margin-top: 1rem;
 }
 .container > button:hover {
-    background: var(--primary-color-dark);
+    background: var(--color-primary-dark);
 }
 .container > button:active, .container > button:focus {
-    background: var(--primary-color-darker);
+    background: var(--color-primary-darker);
 }
 .hidden {
     visibility: hidden;
 }
 .hidden > * {
     visibility: hidden;
+}
+#ro95d7gy8khe4sgj9 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #220000;
+}
+#ro95d7gy8khe4sgj9 > h1 {
+    font-size: 4vw;
+}
+#ro95d7gy8khe4sgj9 > h3 {
+    font-size: 3vw;
 }

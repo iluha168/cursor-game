@@ -9,26 +9,42 @@
 		<meta property="og:image" content="https://cursor-game.iluha168.repl.co/assets/icon-transparent.png"/>
     	<meta content="#FFFF00" data-react-helmet="true" name="theme-color"/>
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="assets/icon-low.png">
-		<script src="index.js" type="module"></script>
+        <script src="https://kit.fontawesome.com/b927c9ec13.js" crossorigin="anonymous"></script>
+        <link rel="icon" href="assets/icon-transparent.png">
+		<script defer src="index.js" type="module"></script>
 	</head>
 	<body>
-		<div class="buttons">
-            <form id="chat">
-				<input maxlength="200" type="text" placeholder="Send a message"/>
-            </form>
-            <form id="nick">
-				<input maxlength="32" type="text" placeholder="Choose a nickname"/>
-            </form>
-            <input id="color" type="color"/>
-			<button id="minigames">Minigames</button>
-		</div>
         <div id="overlay">
-            <div id="fps-counter">0</div>
-            <div id="ping-counter">0</div>
-            <div id="players-online">0</div>
+            <div id="stats">
+                <div id="fps-counter">0</div>
+                <div id="ping-counter">0</div>
+                <div id="players-online">0</div>
+            </div>
+
+            <div id="chat-container">
+                <ul id="chat-logs"></ul>
+                <form id="chat">
+                    <input maxlength="200" type="text" placeholder="Send a message"/>
+                </form>
+            </div>
         </div>
-		<canvas>your browser dogshit</canvas>
+		<canvas>
+            <div id="ro95d7gy8khe4sgj9">
+                <h1>JavaScript is disabled</h1>
+                <h3>This site requires JavaScript to function</h3>
+            </div>
+        </canvas>
+        <div id="sidebar">
+            <i id="open-settings-btn" class="fas fa-bars"></i>
+        </div>
+        <div id="settings-menu">
+            <h1>Options</h1>
+            <form id="nick">
+				<input maxlength="32" type="text" placeholder="Choose a nickname" tabindex="-1"/>
+            </form>
+            <input id="color" type="color" tabindex="-1"/>
+			<button id="minigames" tabindex="-1">Minigames</button>
+        </div>
         <div id="disconnect-warning" class="hidden">
             <div class="container">
                 <h1>Oops!</h1>

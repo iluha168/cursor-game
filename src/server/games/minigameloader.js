@@ -13,7 +13,7 @@ class MinigameLoader {
 		}
         
         this.addEventListener("*", (type, player, ...args) => {
-            game[type]?.(player, ...args); //repl stfu
+            game[type]?.(player, ...args); //repl stfu #ignore
         });
 
         game.start();
