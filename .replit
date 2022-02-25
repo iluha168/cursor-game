@@ -1,1 +1,1 @@
-run = 'npm run start-dev && npm run build-dev'
+run = 'npm run start'

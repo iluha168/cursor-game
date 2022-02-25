@@ -33,11 +33,14 @@ class Game {
         this.me.nick = this.settings.nick;
         DomWorker.setColor(this.settings.color);
     }
-
-    static syncSettings() {
-        Object.assign(localStorage, this.settings);
+    static saveSettings() {
+        Object.assign(localStorage,this.settings);
+        
         this.me.c = this.settings.color;
         this.me.nick = this.settings.nick;
+    }
+
+    static syncSettings() {
         SocketClient.updateState(this.me);
     }
 
@@ -49,10 +52,12 @@ class Game {
         })
         DomWorker.event.addEventListener("nick", (nickname) => {
             this.settings.nick = nickname;
+            this.saveSettings();
             this.syncSettings();
         })
         DomWorker.event.addEventListener("color", (color) => {
             this.settings.color = color;
+            this.saveSettings();
             this.syncSettings();
         })
 
@@ -134,7 +139,6 @@ class Game {
             this.data.chats[id].splice(0,1);
         },msg.length * 150 + 5000);
         
-        DomWorker.addMessage(this.data.cursors[id]?.nick ?? this.me.nick, msg);
         this.event.dispatchEvent("chat_message",data);
     }
 

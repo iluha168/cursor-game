@@ -32,6 +32,7 @@ class SocketClient {
         socket.onclose = (e) => {
             this.event.dispatchEvent("close");
         }
+		console.log(this)
         return socket;
     }
     static async handleMessage(raw) {
@@ -46,12 +47,15 @@ class SocketClient {
         this.socket.send(notepack.encode([type,data]));
     }
     static updateState(state) {
+        if(this.socket.readyState >= 2) return this.event.dispatchEvent("close");
         this.sendJSON(types.DATA_CHANGE,state);
     }
     static updatePosition(state) {
+        if(this.socket.readyState >= 2) return this.event.dispatchEvent("close");
         this.sendJSON(types.USER_MOVE,state);
     }
     static sendMessage(msg) {
+        if(this.socket.readyState >= 2) return this.event.dispatchEvent("close");
         this.sendJSON(types.CHAT,{msg});
     }
 }

@@ -26,7 +26,7 @@ class Server {
 
         //Webserver stuff
         exws(this.server);
-		if (!process.env.IS_DEV) {
+		if (process.env.IS_DEV == "false") {
 			this.server.use(helmet());
 		}
         this.setupWebSocket();
@@ -68,18 +68,15 @@ class Server {
         });
     }
     static setupPaths() {
-        //fontawesome.com provides some svgs needed for the site
         let securityPolicy = `
-            default-src 'self' https://kit.fontawesome.com https://ka-f.fontawesome.com;
+            default-src 'none';
             form-action 'none';
-			frame-ancestors https://replit.com;
-            script-src 'self' https://kit.fontawesome.com 'unsafe-eval';
-            style-src 'self' 'unsafe-inline';
-            style-src-elem 'self' 'unsafe-inline';
+            frame-ancestors 'none';
+            script-src 'self'${process.env.IS_DEV ? " 'unsafe-eval'" : ""};
+            style-src 'self';
             img-src 'self';
-            connect-src 'self' https://ka-f.fontawesome.com;
+            connect-src 'self';
             media-src 'self';
-			${process.env.IS_DEV ? "" : "require-trusted-types-for 'script'"};
         `;
         const options = {
             setHeaders: (res,path,stat) => {
@@ -88,7 +85,7 @@ class Server {
         }
         this.server.use(express.static(path.join(__dirname,"../../dist/"), options));
 
-        this.server.use("/assets/", express.static(path.join(__dirname, "../client/assets"), {maxAge: Infinity}));
+        this.server.use("/assets/", express.static(path.join(__dirname, "../client/assets")));
 		
         this.server.get("/types.js", (_req, res) => {
             res.sendFile(path.join(__dirname, "../types.js"));

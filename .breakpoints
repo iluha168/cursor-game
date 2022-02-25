@@ -7,14 +7,6 @@
         "version": 1,
         "index": 0
       }
-    ],
-    "src/server/server.js": [
-      {
-        "id": "c63b6b17-9c9b-4755-bd1d-badf540e1550",
-        "line": 83,
-        "version": 2719,
-        "index": 2620
-      }
     ]
   }
 }
